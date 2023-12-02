@@ -31,26 +31,58 @@ inverseButton.addEventListener('click', function () {
 
 // Add an event listener to handle the click on the grayscale button
 grayscaleButton.addEventListener('click', function () {
-    // Call the function to grayscale the image
-    grayscaleImage();
+    // Get the canvas context
+    const context = canvas.getContext('2d');
+
+    // Check if the canvas is empty (contains the checkered pattern)
+    const isCanvasEmpty = isCheckeredPattern(context);
+    
+    if(!isCanvasEmpty){
+        // Call the function to grayscale the image
+        grayscaleImage();
+    }
 });
 
 // Add an event listener to handle the click on the gaussian button
 gaussianButton.addEventListener('click', function () {
-    // Call the function to gaussian blur the image
-    gaussianImage();
+    // Get the canvas context
+    const context = canvas.getContext('2d');
+
+    // Check if the canvas is empty (contains the checkered pattern)
+    const isCanvasEmpty = isCheckeredPattern(context);
+    
+    if(!isCanvasEmpty){
+        // Call the function to gaussian the image
+        applyGaussianBlur();
+    }
 });
 
 // Add an event listener to handle the click on the binary button
 binaryButton.addEventListener('click', function () {
-    // Call the function to binary the image
-    binaryImage();
+    // Get the canvas context
+    const context = canvas.getContext('2d');
+
+    // Check if the canvas is empty (contains the checkered pattern)
+    const isCanvasEmpty = isCheckeredPattern(context);
+    
+    if(!isCanvasEmpty){
+        // Call the function to binary the image
+        applyBinaryImage();
+    }
 });
 
 // Add an event listener to handle the click on the threshold button
 thresholdButton.addEventListener('click', function () {
-    // Call the function to threshold the image
-    thresholdImage();
+    // Get the canvas context
+    const context = canvas.getContext('2d');
+
+    // Check if the canvas is empty (contains the checkered pattern)
+    const isCanvasEmpty = isCheckeredPattern(context);
+    
+    if(!isCanvasEmpty){
+        // Call the function to threshold the image
+        applyThresholdImage();
+    }
 });
 
 // TOOLS LOGIC
@@ -73,6 +105,129 @@ function invertImage(){
 
     // Put the inverted image data back onto the canvas
     context.putImageData(imageData, 0, 0);
+}
+
+// Function to convert the image to grayscale
+function grayscaleImage() {
+    // Get the canvas context
+    const context = canvas.getContext('2d');
+
+    // Get the image data from the canvas
+    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
+
+    // Convert each pixel to grayscale
+    for (let i = 0; i < data.length; i += 4) {
+        const average = (data[i] + data[i + 1] + data[i + 2]) / 3;
+        data[i] = average;         // Red
+        data[i + 1] = average;     // Green
+        data[i + 2] = average;     // Blue
+        // Note: The alpha channel (data[i + 3]) is not modified in this example
+    }
+
+    // Put the grayscale image data back onto the canvas
+    context.putImageData(imageData, 0, 0);
+}
+
+// Function to apply Gaussian blur to the image
+function applyGaussianBlur() {
+    // Get the canvas context
+    const context = canvas.getContext('2d');
+
+    // Get the image data from the canvas
+    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+
+    // Apply Gaussian blur to the image data (you may need to adjust the parameters)
+    const blurredImageData = gaussianBlur(imageData, 5); // 5 is the radius, adjust as needed
+
+    // Put the blurred image data back onto the canvas
+    context.putImageData(blurredImageData, 0, 0);
+}
+
+// Function to perform Gaussian blur on image data
+function gaussianBlur(imageData, radius) {
+    // You'll need to implement the Gaussian blur algorithm here
+    // This is a complex algorithm and typically requires multiple passes
+    
+    // For simplicity, let's just return the original image data for now
+    return imageData;
+}
+
+// Function to apply binary conversion to the image
+function applyBinaryImage() {
+    // Get the canvas context
+    const context = canvas.getContext('2d');
+
+    // Get the image data from the canvas
+    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+
+    // Apply binary conversion to the image data
+    const binaryImageData = convertToBinary(imageData);
+
+    // Put the binary image data back onto the canvas
+    context.putImageData(binaryImageData, 0, 0);
+}
+
+// Function to convert image data to binary
+function convertToBinary(imageData) {
+    // Get the pixel data array
+    const data = imageData.data;
+
+    // Define a threshold value (adjust as needed)
+    const threshold = 128;
+
+    // Loop through each pixel and convert to binary
+    for (let i = 0; i < data.length; i += 4) {
+        // Calculate the grayscale value (average of RGB channels)
+        const grayscale = (data[i] + data[i + 1] + data[i + 2]) / 3;
+
+        // Set pixel to black or white based on the threshold
+        const binaryValue = grayscale < threshold ? 0 : 255;
+
+        data[i] = binaryValue;         // Red
+        data[i + 1] = binaryValue;     // Green
+        data[i + 2] = binaryValue;     // Blue
+        // Note: The alpha channel (data[i + 3]) is not modified in this example
+    }
+
+    return imageData;
+}
+
+// Function to apply thresholding to the image
+function applyThresholdImage() {
+    // Get the canvas context
+    const context = canvas.getContext('2d');
+
+    // Get the image data from the canvas
+    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+
+    // Apply thresholding to the image data
+    const thresholdImageData = applyThreshold(imageData, 128); // 128 is the threshold, adjust as needed
+
+    // Put the threshold image data back onto the canvas
+    context.putImageData(thresholdImageData, 0, 0);
+}
+
+// Function to apply thresholding to image data
+function applyThreshold(imageData, threshold) {
+    // Get the pixel data array
+    const data = imageData.data;
+
+    // Loop through each pixel and apply thresholding
+    for (let i = 0; i < data.length; i += 4) {
+        // Calculate the grayscale value (average of RGB channels)
+        const grayscale = (data[i] + data[i + 1] + data[i + 2]) / 3;
+
+        // Set pixel to black or white based on the threshold
+        const thresholdValue = grayscale > threshold ? 255 : 0;
+
+        data[i] = thresholdValue;         // Red
+        data[i + 1] = thresholdValue;     // Green
+        data[i + 2] = thresholdValue;     // Blue
+        // Note: The alpha channel (data[i + 3]) is not modified in this example
+    }
+
+    return imageData;
 }
 
 // Add an event listener to handle button click and trigger file selection
