@@ -9,7 +9,71 @@ const grayscaleButton = document.getElementById('grayscaleButton');
 const gaussianButton = document.getElementById('gaussianButton');
 const binaryButton = document.getElementById('binaryButton');
 const thresholdButton = document.getElementById('thresholdButton'); 
+const brightnessInput = document.getElementById('brightnessInput');
 const contrastInput = document.getElementById('contrastInput');
+
+// TOOLS EVENT LISTENER
+
+// Add an event listener to handle the click on the inverse button
+inverseButton.addEventListener('click', function () {
+    
+    // Get the canvas context
+    const context = canvas.getContext('2d');
+
+    // Check if the canvas is empty (contains the checkered pattern)
+    const isCanvasEmpty = isCheckeredPattern(context);
+    
+    if(!isCanvasEmpty){
+        // Call the function to invert the image
+        invertImage();
+    }
+});
+
+// Add an event listener to handle the click on the grayscale button
+grayscaleButton.addEventListener('click', function () {
+    // Call the function to grayscale the image
+    grayscaleImage();
+});
+
+// Add an event listener to handle the click on the gaussian button
+gaussianButton.addEventListener('click', function () {
+    // Call the function to gaussian blur the image
+    gaussianImage();
+});
+
+// Add an event listener to handle the click on the binary button
+binaryButton.addEventListener('click', function () {
+    // Call the function to binary the image
+    binaryImage();
+});
+
+// Add an event listener to handle the click on the threshold button
+thresholdButton.addEventListener('click', function () {
+    // Call the function to threshold the image
+    thresholdImage();
+});
+
+// TOOLS LOGIC
+
+// Add logic to when inverse button clicked
+function invertImage(){
+    const context = canvas.getContext('2d');
+
+    // Get the image data from the canvas
+    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
+
+    // Invert each pixel's color
+    for (let i = 0; i < data.length; i += 4) {
+        data[i] = 255 - data[i];         // Red
+        data[i + 1] = 255 - data[i + 1]; // Green
+        data[i + 2] = 255 - data[i + 2]; // Blue
+        // Note: The alpha channel (data[i + 3]) is not modified in this example
+    }
+
+    // Put the inverted image data back onto the canvas
+    context.putImageData(imageData, 0, 0);
+}
 
 // Add an event listener to handle button click and trigger file selection
 selectImageButton.addEventListener('click', function () {
@@ -157,9 +221,6 @@ function clearCanvas() {
     // Clear the original image data
     originalImageData = null;
 }
-
-// Get the brightness input and adjust button elements
-const brightnessInput = document.getElementById('brightnessInput');
 
 // Modify brightnessInput event listener
 brightnessInput.addEventListener('input', function () {
