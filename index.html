@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <title>Image Editor</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="brand.png" alt="bootstrap" width="me-auto" height="60">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                  <a class="nav-link active" href="#" role="button" data-bs-toggle="dropdown">File</a>
+                  <ul class="dropdown-menu">
+                    <li><button class="dropdown-item" href="#">New</button></li>
+                    <li><button class="dropdown-item" href="#">Open</button></li>
+                    <li><button class="dropdown-item" href="#">Share</button></li>
+                    <li class="dropend">
+                        <button class="dropdown-item dropdown-toggle" href="#">Export As</button>
+                        <ul class="dropdown-menu dropdown-submenu">
+                            <li>
+                                <button class="dropdown-item">JPG</button>
+                            </li>
+                            <li>
+                                <button class="dropdown-item">PNG</button>
+                            </li>
+                            <li>
+                                <button class="dropdown-item">SVG</button>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><button class="dropdown-item" href="#">Exit</button></li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+      </nav>
+    <section id="tabs-container" data-bs-theme="dark">
+    </section>
+    <main>
+        <section id="canvas-container">
+            <canvas id="imageCanvas" width="800" height="600"></canvas>
+            <div id="canvas-overlay">
+                <button id="selectImageButton">Select Image</button>
+            </div>
+            <input type="file" id="imageInput" style="display:none;" />
+        </section>
+        <section id="tools-container" class="text-light">
+            <span>Filters</span>
+            <div class="filter-buttons">
+                <button id="inverseButton" class="btn bg-dark bg-gradient text-light">Invert</button>
+                <button id="grayscaleButton" class="btn bg-dark bg-gradient text-light">Grayscale</button>
+                <button id="gaussianButton" class="btn bg-dark bg-gradient text-light">Gaussian Blur</button>
+                <button id="binaryButton" class="btn bg-dark bg-gradient text-light">Binary</button>
+                <button id="thresholdButton" class="btn bg-dark bg-gradient text-light">Threshold</button>
+            </div>
+            
+            <br>
+            <div class="row">
+                <div class="col">
+                    <label for="brightnessInput">Brightness</label>
+                </div>
+                <div class="col text-end">
+                    <span id="brightnessPercentage">100%</span>
+                </div>
+            </div>
+            <input type="range" class="form-range" id="brightnessInput" min="0" max="200" step="5" value="100">
+            <br>
+            <div class="row">
+                <div class="col">
+                    <label for="contrastInput">Contrast</label>
+                </div>
+                <div class="col text-end">
+                    <span id="contrastPercentage">100%</span>
+                </div>
+            </div>
+            <input type="range" class="form-range" id="contrastInput" min="0" max="200" step="5" value="100">
+            <br>
+            <button id="clearFiltersButton" class="btn bg-danger bg-gradient text-light">Clear Filters</button>
+            <!-- Add more tools as needed -->
+        </section>
+    </main>
+    <footer>
+        <!-- ... (previous footer code) ... -->
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+</body>
+</html>
