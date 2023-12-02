@@ -11,6 +11,78 @@ const binaryButton = document.getElementById('binaryButton');
 const thresholdButton = document.getElementById('thresholdButton'); 
 const brightnessInput = document.getElementById('brightnessInput');
 const contrastInput = document.getElementById('contrastInput');
+const downloadJpg = document.getElementById('downloadJpg');
+const downloadPng = document.getElementById('downloadPng');
+const downloadPdf = document.getElementById('downloadPdf');
+
+// DOWNLOAD BUTTON
+downloadJpg.addEventListener('click', function(){
+    // Get the canvas context
+    const context = canvas.getContext('2D');
+
+    // Check if the canvas is empty (contains the checkered pattern)
+    const isCanvasEmpty = isCheckeredPattern(context);
+    
+    if(!isCanvasEmpty){
+        // Create a data URL for the canvas content (JPG format)
+        const dataUrl = canvas.toDataURL('image/jpeg');
+
+        // Create a link element
+        const link = document.createElement('a');
+        link.href = dataUrl;
+        link.download = 'image.jpg';
+        
+        // Append the link to the document and trigger a click event
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+});
+
+downloadPng.addEventListener('click', function(){
+    // Get the canvas context
+    const context = canvas.getContext('2D');
+
+    // Check if the canvas is empty (contains the checkered pattern)
+    const isCanvasEmpty = isCheckeredPattern(context);
+    
+    if(!isCanvasEmpty){
+        // Create a data URL for the canvas content (PNG format)
+        const dataUrl = canvas.toDataURL('image/png');
+
+        // Create a link element
+        const link = document.createElement('a');
+        link.href = dataUrl;
+        link.download = 'image.png';
+        
+        // Append the link to the document and trigger a click event
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+});
+
+downloadPdf.addEventListener('click', function(){
+    // Get the canvas context
+    const context = canvas.getContext('2D');
+
+    // Check if the canvas is empty (contains the checkered pattern)
+    const isCanvasEmpty = isCheckeredPattern(context);
+    
+    if(!isCanvasEmpty){
+        // Create a new jsPDF instance
+        const pdf = new jsPDF();
+
+        // Get the data URL for the canvas content (PNG format)
+        const dataUrl = canvas.toDataURL('image/png');
+
+        // Add the canvas image to the PDF
+        pdf.addImage(dataUrl, 'PNG', 0, 0, canvas.width, canvas.height);
+
+        // Save the PDF
+        pdf.save('image.pdf');
+    }
+});
 
 // TOOLS EVENT LISTENER
 
